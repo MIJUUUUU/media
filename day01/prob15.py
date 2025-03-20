@@ -1,5 +1,5 @@
-height = int(input(""))
 weight= int(input(""))
+height = int(input(""))
 
 height2= height * 0.01
 bmi = weight/height2 **2
