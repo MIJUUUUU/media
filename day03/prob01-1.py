@@ -1,6 +1,4 @@
-
 file_name = "prob1-1.txt"
-
 
 n = []
 
@@ -11,7 +9,7 @@ while True:
         break
     n.append(enter)
 
-# 파일에 저장
+
 with open(file_name, "w") as f:
     for line in f:
         f.write(line + "\n")

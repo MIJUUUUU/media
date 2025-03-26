@@ -69,7 +69,7 @@ elif menu == "3":
         with open(filename, "wb") as f:
             pickle.dump(me_data, f)
 
-        print(f"{id}의 태그가 수정되었습니다.")
+        print("데이터가 저장되었습니다.")
     else:
         print("해당 ID의 콘텐츠가 없습니다.")
 

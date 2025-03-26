@@ -1,4 +1,3 @@
-# 파일 이름 설정
 file_name = "prob1-1.txt"
 
 print("Your inputs are below..")
