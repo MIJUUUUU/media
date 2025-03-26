@@ -6,7 +6,7 @@ class Rectangle:
     def area(self): 
         return self.width * self.height
 
-    def perimeter(self):  
+    def round(self):  
         return (self.width + self.height) * 2
 
 
@@ -17,4 +17,5 @@ rect = Rectangle()
 rect.set(width, height)
 
 
-print("width:", rect.area(), "perimeter:", rect.perimeter())
+print("width:", rect.area() )
+print("perimeter:", rect.round() )

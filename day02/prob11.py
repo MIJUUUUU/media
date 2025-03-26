@@ -1,18 +1,22 @@
 answer = int(input(""))
 i = 1
-while i <=10:
 
-    if i>10:
-        print("End")
-   
-    else:
-     num = int(input(""))
-     if num < answer:
+while i <=10:
+    num = int(input(""))
+    
+    if num < answer:
         print("Up")
-     elif num > answer:
+
+    elif num > answer:
         print("Down")
 
-     elif num == answer:
+    elif num == answer:
         print("Correct")
+        break
+    i +=1
 
-i +=1
+if i > 10:
+    print("End")
+
+
+

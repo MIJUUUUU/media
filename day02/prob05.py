@@ -1,8 +1,9 @@
+def func(num):
+    return (2 * num) + 5 
 
-
-num1 = (2 * 10) + 5
-num2 = (2 * 20) + 5
-num3 = (2 * 30) + 5
+num1 = func(10)
+num2 = func(20)
+num3 = func(30)
 
 print ("10 : %.2f" %num1)
 print ("20 : %.2f" %num2)
