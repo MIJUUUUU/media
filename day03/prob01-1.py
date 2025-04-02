@@ -9,9 +9,8 @@ while True:
         break
     n.append(enter)
 
-
 with open(file_name, "w") as f:
-    for line in f:
+    for line in n:
         f.write(line + "\n")
 
 print("Write process has been finished")
