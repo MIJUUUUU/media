@@ -3,9 +3,8 @@ import numpy as np
 import scipy.signal as signal
 
 
-input_file = 'C:/Users/miju/media/day05/6_input_audio.wav'  # 너가 가진 파일 경로로 수정했어
-output_file = 'C:/Users/miju/media/day05/resampled.wav'     # 리샘플링한 파일 저장 위치
-
+input_file = 'C:/Users/miju/media/day05/6_input_audio.wav' 
+output_file = 'C:/Users/miju/media/day05/resampled.wav'   
 
 new_sample_rate = 5000
 
