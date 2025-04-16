@@ -1,31 +1,27 @@
-# 📄 prob02.py
-
 import struct
-from comp import compare_lowdata  # 같은 폴더에 comp.py 있어야 함!
+from comp import compare_lowdata  # comp.py에서 함수 불러오기
 
 def parse_wave_samples(filename):
     with open(filename, 'rb') as wav_file:
-        # Header 부분 skip
-        wav_file.read(4)  # chunk_id
-        wav_file.read(4)  # chunk_size
-        wav_file.read(4)  # format
-        wav_file.read(4)  # sub_chunk_1_id
-        wav_file.read(4)  # sub_chunk_1_size
-        wav_file.read(2)  # audio_format
+        wav_file.read(4)  # ChunkID
+        wav_file.read(4)  # ChunkSize
+        wav_file.read(4)  # Format
+
+        wav_file.read(4)  # Subchunk1ID
+        wav_file.read(4)  # Subchunk1Size
+        wav_file.read(2)  # AudioFormat
         num_channels = struct.unpack('<H', wav_file.read(2))[0]
-        wav_file.read(4)  # sample_rate
-        wav_file.read(4)  # byte_rate
-        wav_file.read(2)  # block_align
+        wav_file.read(4)  # SampleRate
+        wav_file.read(4)  # ByteRate
+        wav_file.read(2)  # BlockAlign
         bits_per_sample = struct.unpack('<H', wav_file.read(2))[0]
 
-        wav_file.read(4)  # sub_chunk_2_id
-        sub_chunk_2_size = struct.unpack('<I', wav_file.read(4))[0]
+        wav_file.read(4)  # Subchunk2ID
+        subchunk2_size = struct.unpack('<I', wav_file.read(4))[0]
 
-        # 샘플 수 계산
         bytes_per_sample = bits_per_sample // 8
-        sample_count = sub_chunk_2_size // bytes_per_sample
+        sample_count = subchunk2_size // bytes_per_sample
 
-        # 샘플 읽기
         samples = []
         for _ in range(sample_count):
             data = wav_file.read(bytes_per_sample)
@@ -34,10 +30,8 @@ def parse_wave_samples(filename):
 
         return samples
 
-# 📌 실행
+# 경로는 본인에 맞게 조정
 samples = parse_wave_samples(r"C:\Users\miju\media\day06\7_3seconds.wav")
 
-# 📌 정답 비교
-print(compare_lowdata(samples))  # 👉 True가 뜨면 성공!
-# prob02.py 마지막
-print(samples)  # 리스트 복사해서 comp.py에 붙여넣기
+# 결과 확인
+print(compare_lowdata(samples))
