@@ -1,20 +1,10 @@
-def find_binary_pattern(file_path, pattern):
-    print(f"패턴 {pattern} 찾기...")
-    positions = []     
-    offset = 0         
+file_name = "prob1-1.txt"
 
-    with open(file_path, "rb") as file:
-        data = file.read()  
+print("Your inputs are below..")
 
-        while True:
-            index = data.find(pattern, offset)  
-            if index == -1: 
-                break
-            positions.append(index) 
-            offset = index + 1      
 
-  
-    print(f"총 {len(positions)}회 발견됨.")
-    print("위치:", positions)
+with open(file_name, "r") as f:
+    for line in f:
+        print(line.strip())
 
-find_binary_pattern("large_data.bin", b'\xDE\xAD\xBE\xEF')
+print("\nProcess finished with exit code 0")

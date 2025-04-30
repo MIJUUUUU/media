@@ -1,9 +1,10 @@
-list_a= list(map(int, input().split()))
-list_b=[]
+a = int(input(""))
 
-for i in list_a:
-    if i%2 ==0:
-        list_b.append(i)
+if a <=0:
+    print("-1")
 
-    
-print(list_b)
+else:
+    if a%2 == 0:
+        print("even")
+    else:
+        print("odd")

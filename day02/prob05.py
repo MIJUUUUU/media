@@ -1,10 +1,7 @@
-def func(num):
-    return (2 * num) + 5 
+a =int(input(""))
 
-num1 = func(10)
-num2 = func(20)
-num3 = func(30)
+if a < 0:
+    print(abs(a))
 
-print ("10 : %.2f" %num1)
-print ("20 : %.2f" %num2)
-print ("30 : %.2f" %num3)
+else:
+     print(a)
