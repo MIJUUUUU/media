@@ -1,22 +1,11 @@
-n = int(input(""))
+a = int(input(""))
+b = int(input(""))
 
-if n>=150000:
-    print("15%")
-    dis = n * 0.15
-    print(f"{n-dis:.0f}")
-
-elif n>=100000:
-    print("10%")
-    dis = n * 0.1
-    print(f"{n-dis:.0f}")
-
-elif n>=50000:
-    print("5%")
-    dis = n * 0.05
-    print(f"{n-dis:.0f}")
-
+answer = sum(range(a, b + 1))
+if a <= 0 or b <= 0:  
+    print(-1)
+elif a > b:  
+    print(-1)
 else:
-    print("-1")
-
-
+    print(answer) 
 

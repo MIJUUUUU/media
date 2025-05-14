@@ -1,18 +1,29 @@
-def split_binary_file(file_path, chunk_size=5 * 1024 * 1024):  
-    part_num = 1  
+from scipy.signal import resample
+import numpy as np
+import wave
 
-    with open(file_path, "rb") as file:
-        while True:
-            chunk = file.read(chunk_size)  
-            if not chunk:  
-                break
+input_file = 'C:/Users/miju/media/day05/6_input_audio.wav'
+output_file = 'C:/Users/miju/media/day05/changed_real.wav'
+new_rate = 11025
 
-            part_file_name = f"part_{part_num}.bin"  
-            with open(part_file_name, "wb") as part_file:
-                part_file.write(chunk)
-
-            print(f"Saved: {part_file_name}")  
-            part_num += 1 
+with wave.open(input_file, 'rb') as wav:
+    nch = wav.getnchannels()
+    sw = wav.getsampwidth()
+    old_rate = wav.getframerate()
+    nframes = wav.getnframes()
+    audio = np.frombuffer(wav.readframes(nframes), dtype=np.int16)
 
 
-split_binary_file("large_data.bin")
+new_len = int(len(audio) * new_rate / old_rate)
+resampled = resample(audio, new_len).astype(np.int16)
+
+with wave.open(output_file, 'wb') as out:
+    out.setnchannels(nch)
+    out.setsampwidth(sw)
+    out.setframerate(new_rate)
+    out.writeframes(resampled.tobytes())
+
+print("변경 전")
+print("Sample rate:", old_rate)
+print("변경 후")
+print("Sample rate:", new_rate)

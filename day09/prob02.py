@@ -1,33 +1,39 @@
-import struct
-
-def flip_bytearray(bytearr, width):
-    row_len = width * 3
-    flipped_bytearr = bytearr[::-1]
-    for i in range(len(bytearr) // row_len):
-        start_index = i * row_len
-        end_index = start_index + row_len
-        flipped_bytearr[start_index:end_index] = flipped_bytearr[start_index:end_index][::-1]
-    return flipped_bytearr
-
-# 파일 열기
-with open("C:/Users/miju/media/day09/8_lena24b_512x512.bmp", "rb") as f:
-    header_data = f.read(54)
-    width = struct.unpack('<I', header_data[18:22])[0]
-    height = struct.unpack('<I', header_data[22:26])[0]
-    pixel_data = bytearray(f.read())
-
-pixel_data = flip_bytearray(pixel_data, width)
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
 
 
-x, y = 300, 400
-index = (y * width + x) * 3
-pixel_data[index] = 255      
-pixel_data[index + 1] = 255  
-pixel_data[index + 2] = 255  
+image_path = "C:/Users/miju/media/day09/8_lena24b_512x512.bmp"  
+img = Image.open(image_path)
 
-pixel_data = flip_bytearray(pixel_data, width)
 
-with open("C:/Users/miju/media/day09/output2.bmp", "wb") as f:
-    f.write(header_data)
-    f.write(pixel_data)
+img_array = np.array(img)
+
+
+L = int(input("양자화할 밝기 단계 수를 입력하세요: ")) 
+
+
+def quantize_channel(channel, L):
+   
+    step = 256 // L
+   
+    return (channel // step) * step
+
+
+quantized_img_array = np.zeros_like(img_array)
+
+
+for i in range(3): 
+    quantized_img_array[:, :, i] = quantize_channel(img_array[:, :, i], L)
+
+
+quantized_img = Image.fromarray(quantized_img_array)
+
+
+plt.imshow(quantized_img)
+plt.axis('off')  
+plt.show()
+
+
+quantized_img.save("quantized_image.bmp")
 

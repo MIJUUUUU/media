@@ -1,36 +1,36 @@
-import struct
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
 
-def flip_bytearray(bytearr, width):
-    row_len = width * 3
-    flipped_bytearr = bytearr[::-1]
-    for i in range(len(bytearr) // row_len):
-        start_index = i * row_len
-        end_index = start_index + row_len
-        flipped_bytearr[start_index:end_index] = flipped_bytearr[start_index:end_index][::-1]
-    return flipped_bytearr
-
-with open("C:/Users/miju/media/day09/8_lena24b_512x512.bmp", "rb") as f:
-    header_data = f.read(54)
-    width = struct.unpack('<I', header_data[18:22])[0]
-    height = struct.unpack('<I', header_data[22:26])[0]
-    pixel_data = bytearray(f.read())
+# 이미지 파일 경로 설정
+image_path = "C:/Users/miju/media/day09/8_lena24b_512x512.bmp"  # 파일 경로를 실제 파일 경로로 설정해주세요.
+img = Image.open(image_path)
 
 
-pixel_data = flip_bytearray(pixel_data, width)
+img_array = np.array(img)
 
 
-for y in range(100, 301):  
-    for x in range(100, 301):
-        index = (y * width + x) * 3
-        pixel_data[index] = 0      
-        pixel_data[index + 1] = 0  
-        pixel_data[index + 2] = 255 
+adjustment_percentage = float(input("밝기 조정 비율(%)을 입력하세요: "))  
 
-# 다시 뒤집기
-pixel_data = flip_bytearray(pixel_data, width)
 
-# 새로운 파일로 저장
-with open("C:/Users/miju/media/day09/output3.bmp", "wb") as f:
-    f.write(header_data)
-    f.write(pixel_data)
+def adjust_brightness(image_array, percentage):
+    factor = 1 + percentage / 100.0
 
+    adjusted_image = np.clip(image_array * factor, 0, 255) 
+    return adjusted_image.astype(np.uint8)
+
+
+adjusted_img_array = adjust_brightness(img_array, adjustment_percentage)
+
+
+adjusted_img = Image.fromarray(adjusted_img_array)
+
+
+output_image_path = f"C:/Users/miju/media/day09/adjusted_image_{adjustment_percentage}.bmp"
+adjusted_img.save(output_image_path)
+
+plt.imshow(adjusted_img)
+plt.axis('off')
+plt.show()
+
+print(f"조정된 이미지를 '{output_image_path}'로 저장했습니다.")

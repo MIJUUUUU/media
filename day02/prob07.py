@@ -1,15 +1,7 @@
-score = int(input(""))
+a =[input() for _ in range(5)]
 
-if score<0 or score>100:
-    print("-1")
+longest = max(a, key=len)
+shortest= min(a, key=len)
 
-else:
-    if score>=80:
-     print("A")
-
-
-    elif score>=60 and score<80:
-     print("B")
-
-    elif score>0:
-     print("C")
+print("longest :", longest)
+print("shortest :", shortest)

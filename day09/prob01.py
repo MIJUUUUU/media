@@ -1,45 +1,35 @@
-import struct
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
 
-def bmp_header(filename):
-    with open(filename, 'rb') as bmp_file:
-        magic_num = bmp_file.read(2)
-        print("Type :", magic_num.hex())
 
-        file_size = struct.unpack('<I', bmp_file.read(4))[0]
-        print("Size :", hex(file_size)[2:])
+image_path = "C:/Users/miju/media/day09/8_lena24b_512x512.bmp" 
+img = Image.open(image_path)
 
-        bmp_file.read(2)
-        bmp_file.read(2)
 
-        off_bits = struct.unpack('<I', bmp_file.read(4))[0]
-        print("OffBits :", off_bits)
+width, height = img.size
+print(f"원본 이미지 크기: {width}x{height}")
 
-        bmp_file.read(4)
 
-        width = struct.unpack('<I', bmp_file.read(4))[0]
-        height = struct.unpack('<I', bmp_file.read(4))[0]
-        print("Height :", height)
-        print("Width :", width)
+img_array = np.array(img)
 
-        bmp_file.read(2)
 
-        bit_count = struct.unpack('<H', bmp_file.read(2))[0]
-        print("BitCount :", bit_count)
+sample_val = 32  
 
-        bmp_file.read(4)
 
-        size_image = struct.unpack('<I', bmp_file.read(4))[0]
-        print("SizeImage :", size_image)
+output_img_array = np.zeros((height // sample_val, width // sample_val, 3), dtype=np.uint8)
 
-        xppm = struct.unpack('<I', bmp_file.read(4))[0]
-        yppm = struct.unpack('<I', bmp_file.read(4))[0]
-        print("XPelsPerMeter :", xppm)
-        print("YPelsPerMeter :", yppm)
 
-        clr_used = struct.unpack('<I', bmp_file.read(4))[0]
-        print("ClrUsed :", clr_used)
+for i in range(0, height, sample_val):
+    for j in range(0, width, sample_val):
+       
+        r = np.mean(img_array[i:i+sample_val, j:j+sample_val, 0])
+        g = np.mean(img_array[i:i+sample_val, j:j+sample_val, 1])
+        b = np.mean(img_array[i:i+sample_val, j:j+sample_val, 2])
 
-        clr_important = struct.unpack('<I', bmp_file.read(4))[0]
-        print("ClrImportant :", clr_important)
+      
+        output_img_array[i // sample_val, j // sample_val] = [r, g, b]
 
-bmp_header("C:/Users/miju/media/day09/8_lena24b_512x512.bmp")
+output_img = Image.fromarray(output_img_array)
+plt.imshow(output_img)
+plt.show()

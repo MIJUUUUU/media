@@ -1,10 +1,22 @@
-arr= list(map(int, input("").split()))
+answer = int(input(""))
+i = 1
 
-odd = [arr[i] for i in range(0,20,2)]
+while i <=10:
+    num = int(input(""))
+    
+    if num < answer:
+        print("Up")
 
-if odd:
-    min = min(odd)
-    max = max(odd)
-    avg = sum(odd)/len(odd)
+    elif num > answer:
+        print("Down")
 
-    print(min, max, f"{avg:.2f}")
+    elif num == answer:
+        print("Correct")
+        break
+    i +=1
+
+if i > 10:
+    print("End")
+
+
+

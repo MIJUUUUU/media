@@ -1,24 +1,15 @@
-import struct
+from PIL import Image
 
-def parse_wave_header(filename):
-    with open(filename, 'rb') as wav_file:
-        chunk_id = wav_file.read(4)
-        chunk_size = struct.unpack('<I', wav_file.read(4))[0]
-        wav_format = wav_file.read(4)
+image_paths = [
+    r"C:\Users\miju\media\day08\5_Dcu.png",
+    r"C:\Users\miju\media\day08\5_sample.bmp",
+    r"C:\Users\miju\media\day08\5_nuts.jpg"
+]
 
-        sub_chunk_1_id = wav_file.read(4)
-        sub_chunk_1_size = struct.unpack('<I', wav_file.read(4))[0]
-        audio_format = struct.unpack('<H', wav_file.read(2))[0]
-        num_channels = struct.unpack('<H', wav_file.read(2))[0]
-        sample_rate = struct.unpack('<I', wav_file.read(4))[0]
-        byte_rate = struct.unpack('<I', wav_file.read(4))[0]
-        block_align = struct.unpack('<H', wav_file.read(2))[0]
-        bits_per_sample = struct.unpack('<H', wav_file.read(2))[0]
-
-        print("chunk_id:", chunk_id)
-        print("chunk_size:", chunk_size)
-        print("wav_format:", wav_format)
-        print("sample_rate:", sample_rate)
-        print("byte_rate:", byte_rate)
-
-parse_wave_header(r"C:\Users\miju\media\day06\7_3seconds.wav")
+for path in image_paths:
+    try:
+        img = Image.open(path)
+        print(f"{path} 파일은 {img.format} 포맷 이미지입니다.")
+    except FileNotFoundError:
+        print(f"{path} 파일을 찾을 수 없습니다.")
+   

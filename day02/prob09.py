@@ -1,15 +1,13 @@
-a,sign, b=input("").split()
-a = int(a)
-b = int(b)
+list_a = list(map(int, input(""). split()))
 
-if sign == "-":
-    print(a, sign, b, "=", a-b)
 
-elif sign == "+":
-    print(a, sign, b, "=", a+b)
+print(list_a)
 
-elif sign == "*":
-    print(a, sign, b, "=", a*b)
+list_a.insert(2,50)
+list_b = list_a[:]
 
-elif sign == "/":
-    print(a, sign, b, "=", a/b)
+del list_a[3]
+list_c = list_a[:]
+
+print(list_b)
+print(list_c)

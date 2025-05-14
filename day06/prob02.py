@@ -1,36 +1,37 @@
-import wave
-import numpy as np
-import scipy.signal as signal
+import struct
+from comp import compare_lowdata  # comp.py에서 함수 불러오기
 
+def parse_wave_samples(filename):
+    with open(filename, 'rb') as wav_file:
+        wav_file.read(4)  # ChunkID
+        wav_file.read(4)  # ChunkSize
+        wav_file.read(4)  # Format
 
-input_file = 'C:/Users/miju/media/day05/6_input_audio.wav' 
-output_file = 'C:/Users/miju/media/day05/resampled.wav'   
+        wav_file.read(4)  # Subchunk1ID
+        wav_file.read(4)  # Subchunk1Size
+        wav_file.read(2)  # AudioFormat
+        num_channels = struct.unpack('<H', wav_file.read(2))[0]
+        wav_file.read(4)  # SampleRate
+        wav_file.read(4)  # ByteRate
+        wav_file.read(2)  # BlockAlign
+        bits_per_sample = struct.unpack('<H', wav_file.read(2))[0]
 
-new_sample_rate = 5000
+        wav_file.read(4)  # Subchunk2ID
+        subchunk2_size = struct.unpack('<I', wav_file.read(4))[0]
 
+        bytes_per_sample = bits_per_sample // 8
+        sample_count = subchunk2_size // bytes_per_sample
 
-with wave.open(input_file, 'rb') as wav_file:
-    n_channels = wav_file.getnchannels()
-    sample_width = wav_file.getsampwidth()
-    sample_rate = wav_file.getframerate()
-    n_frames = wav_file.getnframes()
+        samples = []
+        for _ in range(sample_count):
+            data = wav_file.read(bytes_per_sample)
+            sample = int.from_bytes(data, byteorder='little', signed=True)
+            samples.append(sample)
 
+        return samples
 
-    audio_data = wav_file.readframes(n_frames)
-    audio_data = np.frombuffer(audio_data, dtype=np.int16)
+# 경로는 본인에 맞게 조정
+samples = parse_wave_samples(r"C:\Users\miju\media\day06\7_3seconds.wav")
 
-
-new_length = int(len(audio_data) * float(new_sample_rate) / sample_rate)
-resampled_data = signal.resample(audio_data, new_length)
-
-
-resampled_data = resampled_data.astype(np.int16)
-
-
-with wave.open(output_file, 'wb') as wav_file:
-    wav_file.setnchannels(n_channels)
-    wav_file.setsampwidth(sample_width)
-    wav_file.setframerate(new_sample_rate)
-    wav_file.writeframes(resampled_data.tobytes())
-
-print("저장된 파일:", output_file)
+# 결과 확인
+print(compare_lowdata(samples))

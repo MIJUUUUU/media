@@ -1,19 +1,19 @@
-import pickle 
+def xor_encrypt(input_file, key, output_file):
+    with open(input_file, "rb") as f:
+        data = f.read()
 
-dict = {
-    "dictionary": "사전",
-    "python": "파이썬",
-    "Zoo": "동물원",
-    "School": "학교",
-    "University": "대학교"
-}
+    encrypted = bytearray()
+    for byte in data:
+        encrypted.append(byte ^ key)
 
-with open("prob2-1.bat", "wb") as f:
-    pickle.dump(dict, f)
+    with open(output_file, "wb") as f:
+        f.write(encrypted)
 
-with open("prob2-1.bat", "rb") as f:
-    my_dict = pickle.load(f)
+    print(f"Complete : {output_file}")
 
-for key, value in my_dict.items():
-    print(f"{key}: {value}")
 
+input_file = input("input file : ").strip()
+output_file = input("output file : ").strip()
+key = int(input("input XOR key(0~255) : ").strip())
+
+xor_encrypt(input_file, key, output_file)

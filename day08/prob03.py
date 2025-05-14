@@ -1,4 +1,4 @@
-#실습2 무작위 점
+#실습3 빨간색 상자
 import struct
 
 def flip_bytearray(bytearr, width):
@@ -16,18 +16,22 @@ with open("C:/Users/miju/media/day09/8_lena24b_512x512.bmp", "rb") as f:
     height = struct.unpack('<I', header_data[22:26])[0]
     pixel_data = bytearray(f.read())
 
-pixel_data = flip_bytearray(pixel_data, width)
-
-
-x, y = 300, 400
-index = (y * width + x) * 3
-pixel_data[index] = 255      
-pixel_data[index + 1] = 255  
-pixel_data[index + 2] = 255  
 
 pixel_data = flip_bytearray(pixel_data, width)
 
-with open("C:/Users/miju/media/day09/output2.bmp", "wb") as f:
+
+for y in range(100, 301):  
+    for x in range(100, 301):
+        index = (y * width + x) * 3
+        pixel_data[index] = 0      
+        pixel_data[index + 1] = 0  
+        pixel_data[index + 2] = 255 
+
+
+pixel_data = flip_bytearray(pixel_data, width)
+
+
+with open("C:/Users/miju/media/day09/output3.bmp", "wb") as f:
     f.write(header_data)
     f.write(pixel_data)
 
